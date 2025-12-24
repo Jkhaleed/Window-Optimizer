@@ -1,4 +1,5 @@
 import winreg
+import os
 
 PATH = r"Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
 NAME = "VisualFXSetting"
@@ -53,21 +54,10 @@ def main():
                 break
             elif output == '1':
                 print("loading...")
-                base = r"Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
-                def getCustomset():
-                    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, base) as key:
-                        i = 0
-                        while True:
-                            try:
-                                subkey = winreg.EnumKey(key, i)
-                                print(subkey)
-                                i += 1
-                            except OSError:
-                                break
-
-                def setCustomerset(value: bool):
-
-
+                try:
+                    os.system("SystemPropertiesPerformance")
+                except Exception as e:
+                    print(f"ERROR: {e}")
             else:
                 print("Invalid number")
             break

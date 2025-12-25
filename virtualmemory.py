@@ -12,10 +12,10 @@ print(f"Usage: {swap.percent}%")
 if swap.used == 0:
     choice = input("Do you want to turn on the paging file 1 (yes)/ 0 (no): ")
     if choice == "1":
-        os.system("SystemPropertiesAdvancedPerformance")
+        os.system("SystemPropertiesAdvanced")
     elif choice == "0":
         print("Thanks so much for checking this out")
     else:
         print("Invalid number")
 else:
-    print("You paging file is working fine")
+    print("Your paging file is working fine")

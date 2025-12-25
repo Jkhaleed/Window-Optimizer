@@ -4,7 +4,7 @@ PATH = r"Control Panel\Mouse"
 NAME = "MouseSpeed"
 
 
-def get_mouse_speed():
+def get_acceleration():
     # Read the mouse and return it as a string
     try:
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, PATH,0, winreg.KEY_READ) as key:
@@ -18,7 +18,7 @@ def get_mouse_speed():
         return None
 
 
-def set_mouse_speed(value: int):
+def set_acceleration(value: int):
     if value not in (0, 1, 2):
         raise ValueError("MouseSpeed must be 0, 1, or 2")
 

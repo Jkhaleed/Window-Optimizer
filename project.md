@@ -22,6 +22,4 @@ As a last resort, settings in Windows can be changed from editing the registry. 
 
 ## GUI
 
-Create a GUI wrapper that is able to display every setting included in the CLI.
-
-*TBD*
+Create a GUI wrapper that is able to display every setting included in the CLI. *(TBD)*

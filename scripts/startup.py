@@ -1,7 +1,5 @@
 import subprocess
 
-
-
 def open_task_manager_startup():
     try:
         # The command to open the Task Manager to the Startup tab

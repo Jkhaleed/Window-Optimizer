@@ -3,6 +3,15 @@ import os
 
 swap = psutil.swap_memory()
 
+def get_vmem():
+    return {
+        "status": swap.used == 0,
+        "total": swap.total,
+        "used": swap.used,
+        "free": swap.free,
+        "usage": swap.percent
+	}
+
 print("\n=== Swap / Paging File ===")
 print(f"Total: {swap.total / 1024**3:.2f} GB")
 print(f"Used: {swap.used / 1024**3:.2f} GB")

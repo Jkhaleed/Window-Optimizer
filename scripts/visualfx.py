@@ -15,28 +15,34 @@ def get_visual_fx():
     except OSError:
         return None
 
-
 def set_visual_fx(value: int):
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, PATH) as key:
         winreg.SetValueEx(key, NAME, 0, winreg.REG_DWORD, value)
-# Backup original state
-original = get_visual_fx()
-print("Original VisualFXSetting:", original)
-
-# Apply Best Performance
-def display_menu():
-    print(" Main menu ")
-    print("0, Let Windows choose what's best for my computer ")
-    print("1, Adjust for best appearance")
-    print("2, Adjust for best performance")
-    print("3, custom")
-    print("4, Exit the program")
 
 
 def main():
+    print("Visual effects are currently set to: ", end="")
+    match get_visual_fx():
+        case 0:
+            print("(0) Let Windows decide")
+        case 1:
+            print("(1) Best appearance")
+        case 2:
+            print("(2) Best performance")
+        case 3:
+            print("(3) Custom")
+
     while True:
-        display_menu()
-        choice = input("Enter a choice (0-4): ")
+        print(
+              "\nChoose an option to set to:\n"
+              "(0) Let Windows choose what's best for my computer\n"
+              "(1) Adjust for best appearance\n"
+              "(2) Adjust for best performance\n"
+              "(3) Custom\n"
+              "(4) Exit"
+              )
+        
+        choice = input()
 
         if choice == '0':
             set_visual_fx(0)
@@ -49,7 +55,7 @@ def main():
             break
         elif choice == '3':
             set_visual_fx(3)
-            output = input("Do you want to customize the virtual effects; (0 (no)/ 1 (yes): ")
+            output = input("Do you want to open the effects customizer? 0 (no)/ 1 (yes): ")
             if output == "0":
                 break
             elif output == '1':
@@ -67,8 +73,6 @@ def main():
         else:
             print("Invalid number")
 
-
-print("Visual effects set to Best Performance")
 
 if __name__ == "__main__":
     main()

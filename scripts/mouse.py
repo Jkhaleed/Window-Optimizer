@@ -28,7 +28,7 @@ def set_acceleration(value: int):
 
 def main():
     #Main Menu
-    original = get_mouse_speed()
+    original = get_acceleration()
     print(f"Original MouseSpeed: {original}")
 
     print("\nMain menu")
@@ -45,7 +45,7 @@ def main():
             break
 
         try:
-            set_mouse_speed(int(choice))
+            set_acceleration(int(choice))
             print("MouseSpeed updated successfully.")
             break
         except (ValueError, OSError):

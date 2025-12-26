@@ -41,7 +41,7 @@ def main():
               "(3) Custom\n"
               "(4) Exit"
               )
-        
+
         choice = input()
 
         if choice == '0':
@@ -72,7 +72,6 @@ def main():
             break
         else:
             print("Invalid number")
-
 
 if __name__ == "__main__":
     main()

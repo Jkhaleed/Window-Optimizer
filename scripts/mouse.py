@@ -52,5 +52,12 @@ def main():
             print("Invalid input. Please enter 0, 1, 2, or 3.")
 
 
+def update_mouse_acceleration(value: int):
+    if value not in(0,1,2):
+        raise ValueError("Mouse value must be 0,1 or 2")
+    set_acceleration(value)
+    return value
+
+
 if __name__ == "__main__":
     main()

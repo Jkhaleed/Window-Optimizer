@@ -73,5 +73,18 @@ def main():
         else:
             print("Invalid number")
 
+
+def select_visual_fx(value: int, open_customizer: bool = False):
+    if value not in (0, 1, 2, 3):
+        raise ValueError("Visual FX value must be 0-3")
+
+    set_visual_fx(value)
+    if value == 3 and open_customizer:
+        try:
+            os.system("SystemPropertiesPerformance")
+        except Exception as e:
+            print(f"Failed to open customizer: {e}")
+    return value
+
 if __name__ == "__main__":
     main()

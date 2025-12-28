@@ -1,9 +1,8 @@
 import psutil
 import os
 
-
-def get_vmem_and_check():
-    swap = psutil.swap_memory()
+swap = psutil.swap_memory()
+def get_vmem():
     info = {
         "status": swap.used > 0,
         "total": swap.total,
@@ -11,6 +10,9 @@ def get_vmem_and_check():
         "free": swap.free,
         "usage": swap.percent
     }
+    return info
+
+def check_vmem(info):
     if swap.used == 0:
         choice = input("Do you want to turn on the paging file 1 (yes)/ 0 (no): ")
         if choice == "1":
@@ -28,8 +30,7 @@ def get_vmem_and_check():
 
     return info
 
-if __name__ == "__main__":
-    get_vmem_and_check()
+
 
 # print("\n=== Swap / Paging File ===")
 # print(f"Total: {swap.total / 1024**3:.2f} GB")

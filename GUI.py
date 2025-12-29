@@ -307,14 +307,15 @@ class App(customtkinter.CTk):
             self.textbox.insert("end", line + "\n")
 
     def apply_virtual_fx(self, choice):
-        mapping = {
-            "Let Windows decide": 0,
-            "Best appearance": 1,
-            "Best performance": 2,
-            "Custom": 3
-        }
-        scripts.visualfx.select_visual_fx(mapping[choice], open_customizer=(choice == "Custom"))
-        self.fx_label.configure(text=f"Visual FX set to: {choice}")
+        pass
+        # mapping = {
+        #     "Let Windows decide": 0,
+        #     "Best appearance": 1,
+        #     "Best performance": 2,
+        #     "Custom": 3
+        # }
+        # scripts.visualfx.select_visual_fx(mapping[choice], open_customizer=(choice == "Custom"))
+        # self.fx_label.configure(text=f"Visual FX set to: {choice}")
 
     def on_mouse_option(self, choice):
         mapping = {

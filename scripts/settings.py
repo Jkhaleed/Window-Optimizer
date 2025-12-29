@@ -2,7 +2,7 @@ import webbrowser, subprocess, os
 import time
 from enum import Enum
 
-# Repository for all the links for Settings, Control Panel, etc. for ease-of-access
+# File for links to Settings, Control Panel, etc. for ease-of-access
 
 class WinSettings:
     """Container for Windows Settings URIs."""
@@ -49,6 +49,26 @@ class WinSettings:
         START = "ms-settings:personalization-start"
         TASKBAR = "ms-settings:taskbar"
 
+    class EaseOfAccess(_Base):
+        AUDIO = "ms-settings:easeofaccess-audio"
+        CLOSED_CAPTIONS = "ms-settings:easeofaccess-closedcaptioning"
+        COLOR_FILTERS = "ms-settings:easeofaccess-colorfilter"
+        COLOR_FILTERS_ADAPTIVE = "ms-settings:easeofaccess-colorfilter-adaptivecolorlink"
+        COLOR_FILTERS_BLUE_LIGHT = "ms-settings:easeofaccess-colorfilter-bluelightlink"
+        DISPLAY = "ms-settings:easeofaccess-display"
+        EYE_CONTROL = "ms-settings:easeofaccess-eyecontrol"
+        # HEARING_DEVICES = "ms-settings:easeofaccess-hearingaids" # Windows 11, 24H2+
+        HIGH_CONTRAST = "ms-settings:easeofaccess-highcontrast"
+        KEYBOARD = "ms-settings:easeofaccess-keyboard"
+        MAGNIFIER = "ms-settings:easeofaccess-magnifier"
+        MOUSE = "ms-settings:easeofaccess-mouse"
+        MOUSE_POINTER_TOUCH = "ms-settings:easeofaccess-mousepointer"
+        NARRATOR = "ms-settings:easeofaccess-narrator"
+        NARRATOR_AUTOSTART = "ms-settings:easeofaccess-narrator-isautostartenabled"
+        SPEECH = "ms-settings:easeofaccess-speechrecognition"
+        TEXT_CURSOR = "ms-settings:easeofaccess-cursor"
+        VISUAL_EFFECTS = "ms-settings:easeofaccess-visualeffects"
+
     class Apps(_Base):
         FEATURES = "ms-settings:appsfeatures"
         DEFAULT_APPS = "ms-settings:defaultapps"
@@ -94,10 +114,15 @@ class WinControlPanel:
 
     class _Base(Enum):
         def open(self):
-            """Executes the control panel command for the canonical name."""
-            # Use subprocess to call 'control /name Microsoft.Name'
-            subprocess.Popen(['control', '/name', self.value])
-            return f"Opening Control Panel item: {self.name}..."
+            # If value is a tuple, expand it; if it's a string, wrap it in a list.
+            args = list(self.value) if isinstance(self.value, (tuple, list)) else [self.value]
+            
+            # Construct the command: ['control', '/name', 'Name', '/page', 'Page']
+            full_cmd = ['control', '/name'] + args
+            
+            # Use subprocess to call full command
+            print(f"Opening Control Panel item: {full_cmd}")
+            subprocess.Popen(full_cmd)
 
     class System(_Base):
         SYSTEM_INFO = "Microsoft.System"
@@ -132,7 +157,15 @@ class WinControlPanel:
 
     class Appearance(_Base):
         FONTS = "Microsoft.Fonts"
-        EASE_OF_ACCESS = "Microsoft.EaseOfAccessCenter"
+    
+    class Accessibility(_Base):
+        """Ease of Access Center and specific sub-pages."""
+        CENTER = "Microsoft.EaseOfAccessCenter"
+        EASIER_TO_SEE = ("Microsoft.EaseOfAccessCenter", "/page", "pageEasierToSee")
+        USE_WITHOUT_DISPLAY = ("Microsoft.EaseOfAccessCenter", "/page", "pageNoVisual")
+        EASIER_TO_USE_MOUSE = ("Microsoft.EaseOfAccessCenter", "/page", "pageEasierToClick")
+        EASIER_TO_USE_KEYBOARD = ("Microsoft.EaseOfAccessCenter", "/page", "pageKeyboardEasierToUse")
+        SPEECH_RECOGNITION = "Microsoft.SpeechRecognition"
 
     class ClockRegion(_Base):
         DATE_TIME = "Microsoft.DateAndTime"
@@ -182,6 +215,13 @@ class WinSystemTools:
         SNIPPING_TOOL = "snippingtool.exe"
         CALCULATOR = "calc.exe"
     
+    class Dialogs(_Base):
+        SYSTEM_PROPERTIES = "sysdm.cpl"
+        ENVIRONMENT_VARIABLES = "rundll32.exe sysdm.cpl,EditEnvironmentVariables"
+        ADVANCED_SYSTEM_SETTINGS = "SystemPropertiesAdvanced.exe"
+        PERFORMANCE_OPTIONS = "SystemPropertiesPerformance.exe"
+        USER_ACCOUNTS_ALT = "netplwiz.exe" # Direct access to advanced user accounts
+
     def get_system_info():
         try:
             result = subprocess.run(['systeminfo'], capture_output=True, text=True, check=True)
@@ -204,4 +244,5 @@ if __name__ == "__main__":
     # time.sleep(1)
     MMC.DEVICE_MANAGER.open()
     time.sleep(1)
-    print(WinSystemTools.get_system_info())
+    # print(WinSystemTools.get_system_info())
+    WinControlPanel.Accessibility.EASIER_TO_SEE.open()

@@ -8,6 +8,7 @@ import scripts.brightness
 import scripts.startup
 import scripts.virtualmemory
 import scripts.visualfx
+import scripts.settings
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("blue")
@@ -37,9 +38,35 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("Windows Optimizer")
-        self.geometry("800x650")
+        self.geometry("1000x650")
 
         self.brightness_text = customtkinter.StringVar()
+
+        header_frame = customtkinter.CTkFrame(
+            self,
+            corner_radius=10,
+            fg_color=COLORS['primary'],
+            height=100
+        )
+        header_frame.pack(padx=0, pady=0, fill="x")
+        header_frame.pack_propagate(False)
+
+        title_label = customtkinter.CTkLabel(
+            header_frame,
+            text="⚡ Windows Optimizer",
+            font=("Bahnschrift", 28, "bold"),
+            text_color="white"
+        )
+        title_label.pack(side="left", padx=30, pady=15)
+
+        # Subtitle
+        subtitle_label = customtkinter.CTkLabel(
+            header_frame,
+            text="Optimize and manage your Windows system",
+            font=("Segoe UI", 12),
+            text_color="gray90"
+        )
+        subtitle_label.place(x=30, y=70)
 
         # ---- TabView ----
         self.tab_view = customtkinter.CTkTabview(
@@ -59,6 +86,8 @@ class App(customtkinter.CTk):
         self.tab_view.add("🚀 Startup Apps")
         self.tab_view.add("🖱️Mouse")
         self.tab_view.add("☀️ Windows Brightness")
+        self.tab_view.add("🛠️ Extra Settings")
+
 
         # ---- Tabs ----
         self.setup_computer_info_tab()
@@ -67,12 +96,21 @@ class App(customtkinter.CTk):
         self.setup_startup_tab()
         self.setup_mouse_tab()
         self.setup_brightness_tab()
+        self.setup_extrasettings_tab()
 
     # ---------------- TAB SETUP ----------------
     def setup_computer_info_tab(self):
         tab = self.tab_view.tab("💻 Computer Information")
+
+        computer_label = customtkinter.CTkLabel(
+            tab,
+            text="Learn about your computer information",
+            font=("Segoe UI", 12),
+            text_color="gray90"
+        )
+        computer_label.place(x=20, y=10)
         self.textbox = customtkinter.CTkTextbox(tab, height=200)
-        self.textbox.pack(padx=25, pady=15, fill="both", expand=True)
+        self.textbox.pack(padx=25, pady=40, fill="both", expand=True)
 
         self.button_1 = customtkinter.CTkButton(
             tab,
@@ -123,12 +161,21 @@ class App(customtkinter.CTk):
 
     def setup_startup_tab(self):
         tab = self.tab_view.tab("🚀 Startup Apps")
+
+        startup_label = customtkinter.CTkLabel(
+            tab,
+            text="Open up Task Manager and access startup apps",
+            font=("Segoe UI", 12),
+            text_color="gray90"
+        )
+        startup_label.place(x=20, y=10)
+
         self.button_startup = customtkinter.CTkButton(
             tab,
             text="Open Task Manager",
             command=self.open_startup_app
         )
-        self.button_startup.pack(padx=20, pady=10, fill="x")
+        self.button_startup.pack(padx=20, pady=45, fill="x")
 
     def setup_mouse_tab(self):
         tab = self.tab_view.tab("🖱️Mouse")
@@ -168,6 +215,91 @@ class App(customtkinter.CTk):
         self.brightness_slider.pack(padx=20, pady=10, fill="x")
         self.show_brightness()
 
+    def setup_extrasettings_tab(self):
+        tab = self.tab_view.tab("🛠️ Extra Settings")
+
+        title_label = customtkinter.CTkLabel(
+            tab,
+            text="System Management Tools",
+            font=("Segoe UI", 18, "bold")
+        )
+        title_label.grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 10), sticky="w")
+
+        # Configure grid weights for responsive layout
+        tab.grid_columnconfigure(0, weight=1)
+        tab.grid_columnconfigure(1, weight=1)
+
+        # Row 1
+        btn1 = customtkinter.CTkButton(
+            tab,
+            text="🖥️ Device Manager",
+            command=lambda: scripts.settings.MMC.DEVICE_MANAGER.open()
+        )
+        btn1.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
+
+        btn2 = customtkinter.CTkButton(
+            tab,
+            text="⚙️ Services",
+            command=lambda: scripts.settings.MMC.SERVICES.open()
+        )
+        btn2.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
+
+        # Row 2
+        btn3 = customtkinter.CTkButton(
+            tab,
+            text="📊 Task Manager",
+            command=lambda: scripts.settings.WinSystemTools.Utilities.TASK_MANAGER.open()
+        )
+        btn3.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
+
+        btn4 = customtkinter.CTkButton(
+            tab,
+            text="💾 Disk Management",
+            command=lambda: scripts.settings.MMC.DISK_MANAGEMENT.open()
+        )
+        btn4.grid(row=2, column=1, padx=10, pady=10, sticky="ew")
+
+        btn5 = customtkinter.CTkButton(
+            tab,
+            text="💾 About System",
+            command=lambda: scripts.settings.WinSettings.System.ABOUT.open()
+        )
+        btn5.grid(row=3, column=0, padx=10, pady=10, sticky="ew")
+
+        btn6 = customtkinter.CTkButton(
+            tab,
+            text="🎮 Game Bar Settings",
+            command=lambda: scripts.settings.WinSettings.Gaming.GAME_BAR.open()
+        )
+        btn6.grid(row=3, column=1, padx=10, pady=10, sticky="ew")
+
+        btn7 = customtkinter.CTkButton(
+            tab,
+            text="🔊 Sound Settings",
+            command=lambda: scripts.settings.WinControlPanel.Hardware.SOUND.open()
+        )
+        btn7.grid(row=4, column=0, padx=10, pady=10, sticky="ew")
+
+        btn8 = customtkinter.CTkButton(
+            tab,
+            text="🔋 Power Options",
+            command=lambda: scripts.settings.WinControlPanel.System.POWER_OPTIONS.open()
+        )
+        btn8.grid(row=4, column=1, padx=10, pady=10, sticky="ew")
+
+        btn9 = customtkinter.CTkButton(
+            tab,
+            text="🖥️ Display Settings",
+            command=lambda: scripts.settings.WinSettings.System.DISPLAY.open()
+        )
+        btn9.grid(row=5, column=0, padx=10, pady=10, sticky="ew")
+
+        btn10 = customtkinter.CTkButton(
+            tab,
+            text="📷 Camera Privacy",
+            command=lambda: scripts.settings.WinSettings.Privacy.CAMERA.open()
+        )
+        btn10.grid(row=5, column=1, padx=10, pady=10, sticky="ew")
     # ---------------- METHODS ----------------
     def show_computer_info(self):
         self.textbox.delete("1.0", "end")
@@ -216,6 +348,9 @@ class App(customtkinter.CTk):
     def show_brightness(self):
         value = scripts.brightness.get_brightness()
         self.brightness_text.set(f"Brightness: {value}%")
+
+    # def open_device_manager(self):
+    #     scripts.settings.WinSettings.Gaming.GAME_BAR.open()
 
 
 if __name__ == "__main__":

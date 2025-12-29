@@ -1,41 +1,26 @@
 import psutil
-import os
+import ctypes
 
-swap = psutil.swap_memory()
 def get_vmem():
+    swap = psutil.swap_memory()  # Move inside the function
+
     info = {
-        "status": swap.used > 0,
-        "total": swap.total,
-        "used": swap.used,
-        "free": swap.free,
-        "usage": swap.percent
+        "status": swap.total > 0,
+        "total": f"{swap.total / 1024 ** 3:.2f} GB",
+        "used": f"{swap.used / 1024 ** 3:.2f} GB",
+        "free": f"{swap.free / 1024 ** 3:.2f} GB",
+        "usage": f"{swap.percent} %",
+        "needs_attention": swap.total == 0  # simple check for missing pagefile
     }
-    return info
-
-def check_vmem(info):
-    if swap.used == 0:
-        choice = input("Do you want to turn on the paging file 1 (yes)/ 0 (no): ")
-        if choice == "1":
-            os.system("SystemPropertiesAdvanced")
-            info["action"] = "opened_settings"
-        elif choice == "0":
-            print("Thanks so much for checking this out")
-            info["action"] = "declined"
-        else:
-            print("Invalid number")
-            info["action"] = "invalid"
-    else:
-        print("Your paging file is working fine")
-        info["action"] = "active"  #
 
     return info
 
-
-
-# print("\n=== Swap / Paging File ===")
-# print(f"Total: {swap.total / 1024**3:.2f} GB")
-# print(f"Used: {swap.used / 1024**3:.2f} GB")
-# print(f"Free: {swap.free / 1024**3:.2f} GB")
-# print(f"Usage: {swap.percent}%")
-#option to turn
-
+def open_virtual_memory_settings():
+    ctypes.windll.shell32.ShellExecuteW(
+        None,
+        "runas",  # forces UAC
+        "SystemPropertiesAdvanced",
+        None,
+        None,
+        1
+    )

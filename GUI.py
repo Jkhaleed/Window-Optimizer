@@ -10,6 +10,7 @@ import scripts.virtualmemory
 import scripts.visualfx
 import scripts.settings
 
+
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("blue")
 customtkinter.deactivate_automatic_dpi_awareness()
@@ -109,15 +110,15 @@ class App(customtkinter.CTk):
             text_color="gray90"
         )
         computer_label.place(x=20, y=10)
-        self.textbox = customtkinter.CTkTextbox(tab, height=200)
-        self.textbox.pack(padx=25, pady=40, fill="both", expand=True)
+        textbox = customtkinter.CTkTextbox(tab, height=200)
+        textbox.pack(padx=25, pady=40, fill="both", expand=True)
 
-        self.button_1 = customtkinter.CTkButton(
+        button_1 = customtkinter.CTkButton(
             tab,
             text="Click me computer info",
             command=self.show_computer_info
         )
-        self.button_1.pack(pady=10)
+        button_1.pack(pady=10)
 
     def setup_visual_fx_tab(self):
         tab = self.tab_view.tab("✨ Visual FX")
@@ -127,13 +128,15 @@ class App(customtkinter.CTk):
             font=("Segoe UI", 14, "bold")
         )
         self.fx_label.pack(padx=20, pady=(20, 5), anchor="w")
+        self.textbox = customtkinter.CTkTextbox(tab, height=200)
+        self.textbox.pack(padx=25, pady=40, fill="both", expand=True)
 
-        self.fx_button = customtkinter.CTkSegmentedButton(
+        self.fx_button = customtkinter.CTkButton(
             tab,
-            values=["Let Windows decide", "Best appearance", "Best performance", "Custom"],
+            text="Check out Virtual FX Settings",
             command=self.apply_virtual_fx
         )
-        self.fx_button.pack(padx=20, pady=20, fill="x")
+        self.fx_button.pack( pady=20)
 
     def setup_virtual_memory_tab(self):
         tab = self.tab_view.tab("💾 Virtual Memory")
@@ -186,17 +189,12 @@ class App(customtkinter.CTk):
         )
         self.mouse_label.pack(padx=20, pady=(20, 5), anchor="w")
 
-        self.mouse_option = customtkinter.CTkOptionMenu(
+        self.mouse_button = customtkinter.CTkButton(
             tab,
-            values=[
-                "Disabled Enhanced Pointer Precision",
-                "Legacy Acceleration",
-                "Enable Enhanced Pointer Precision"
-            ],
+            text = "Open Mouse Properties",
             command=self.on_mouse_option
         )
-        self.mouse_option.set("Legacy Acceleration")
-        self.mouse_option.pack(padx=20, pady=5, fill="x")
+        self.mouse_button.pack(padx=20, pady=5, fill="x")
 
     def setup_brightness_tab(self):
         tab = self.tab_view.tab("☀️ Windows Brightness")
@@ -233,6 +231,8 @@ class App(customtkinter.CTk):
         btn1 = customtkinter.CTkButton(
             tab,
             text="🖥️ Device Manager",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.MMC.DEVICE_MANAGER.open()
         )
         btn1.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
@@ -240,6 +240,8 @@ class App(customtkinter.CTk):
         btn2 = customtkinter.CTkButton(
             tab,
             text="⚙️ Services",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.MMC.SERVICES.open()
         )
         btn2.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
@@ -248,6 +250,8 @@ class App(customtkinter.CTk):
         btn3 = customtkinter.CTkButton(
             tab,
             text="📊 Task Manager",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.WinSystemTools.Utilities.TASK_MANAGER.open()
         )
         btn3.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
@@ -255,6 +259,8 @@ class App(customtkinter.CTk):
         btn4 = customtkinter.CTkButton(
             tab,
             text="💾 Disk Management",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.MMC.DISK_MANAGEMENT.open()
         )
         btn4.grid(row=2, column=1, padx=10, pady=10, sticky="ew")
@@ -262,6 +268,8 @@ class App(customtkinter.CTk):
         btn5 = customtkinter.CTkButton(
             tab,
             text="💾 About System",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.WinSettings.System.ABOUT.open()
         )
         btn5.grid(row=3, column=0, padx=10, pady=10, sticky="ew")
@@ -269,6 +277,8 @@ class App(customtkinter.CTk):
         btn6 = customtkinter.CTkButton(
             tab,
             text="🎮 Game Bar Settings",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.WinSettings.Gaming.GAME_BAR.open()
         )
         btn6.grid(row=3, column=1, padx=10, pady=10, sticky="ew")
@@ -276,6 +286,8 @@ class App(customtkinter.CTk):
         btn7 = customtkinter.CTkButton(
             tab,
             text="🔊 Sound Settings",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.WinControlPanel.Hardware.SOUND.open()
         )
         btn7.grid(row=4, column=0, padx=10, pady=10, sticky="ew")
@@ -283,6 +295,8 @@ class App(customtkinter.CTk):
         btn8 = customtkinter.CTkButton(
             tab,
             text="🔋 Power Options",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.WinControlPanel.System.POWER_OPTIONS.open()
         )
         btn8.grid(row=4, column=1, padx=10, pady=10, sticky="ew")
@@ -290,6 +304,8 @@ class App(customtkinter.CTk):
         btn9 = customtkinter.CTkButton(
             tab,
             text="🖥️ Display Settings",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.WinSettings.System.DISPLAY.open()
         )
         btn9.grid(row=5, column=0, padx=10, pady=10, sticky="ew")
@@ -297,6 +313,8 @@ class App(customtkinter.CTk):
         btn10 = customtkinter.CTkButton(
             tab,
             text="📷 Camera Privacy",
+            width=40,
+            height=50,
             command=lambda: scripts.settings.WinSettings.Privacy.CAMERA.open()
         )
         btn10.grid(row=5, column=1, padx=10, pady=10, sticky="ew")
@@ -306,24 +324,13 @@ class App(customtkinter.CTk):
         for line in scripts.compinfo.get_computer_info():
             self.textbox.insert("end", line + "\n")
 
-    def apply_virtual_fx(self, choice):
-        pass
-        # mapping = {
-        #     "Let Windows decide": 0,
-        #     "Best appearance": 1,
-        #     "Best performance": 2,
-        #     "Custom": 3
-        # }
-        # scripts.visualfx.select_visual_fx(mapping[choice], open_customizer=(choice == "Custom"))
-        # self.fx_label.configure(text=f"Visual FX set to: {choice}")
+    def apply_virtual_fx(self):
+        self.textbox.delete("1.0", "end")
+        for key, value in scripts.visualfx.getall_visual_fx().items():
+            self.textbox.insert("end", f"{key}: {value}" + "\n")
 
-    def on_mouse_option(self, choice):
-        mapping = {
-            "Disabled Enhanced Pointer Precision": 0,
-            "Legacy Acceleration": 1,
-            "Enable Enhanced Pointer Precision": 2
-        }
-        scripts.mouse.update_mouse_acceleration(mapping[choice])
+    def on_mouse_option(self):
+        scripts.mouse.open_mouse_settings()
 
     def show_memory_info(self):
         self.memory_textbox.delete("1.0", "end")

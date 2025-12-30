@@ -233,18 +233,21 @@ class WinSystemTools:
 
 
 if __name__ == "__main__":
+    WinControlPanel.Hardware.MOUSE.open()
+    time.sleep(1)
     WinSettings.System.ABOUT.open()
     time.sleep(1)
+    WinSettings.Devices.MOUSE.open()
     WinSettings.Gaming.GAME_BAR.open()
     time.sleep(1)
     WinControlPanel.System.SYSTEM_INFO.open()
     time.sleep(1)
-    # WinSettings.Gaming.open() # does not work (no page exists)
+    WinSettings.Gaming.open() # does not work (no page exists)
     WinControlPanel.System.POWER_OPTIONS.open()
     time.sleep(1)
     WinControlPanel.Hardware.SOUND.open()
     time.sleep(1)
     MMC.DEVICE_MANAGER.open()
     time.sleep(1)
-    # print(WinSystemTools.get_system_info())
+    print(WinSystemTools.get_system_info())
     WinControlPanel.Accessibility.EASIER_TO_SEE.open()

@@ -1,7 +1,7 @@
 import winreg
 import os
 import ctypes, ctypes.wintypes
-from settings import WinSettings, WinControlPanel, WinSystemTools
+from scripts.settings import WinSettings, WinControlPanel, WinSystemTools
 
 # It is not appropriate to set visual effects solely through an API, nor through editing a single registry key.
 # It is potential that any changes to a single visual effect rely on editing multiple registry keys and making API calls.

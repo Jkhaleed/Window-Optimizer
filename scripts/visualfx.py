@@ -27,6 +27,34 @@ SPI_GETUIEFFECTS = 0x103E
 PATH = r"Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
 NAME = "VisualFXSetting"
 
+def getall_visual_fx():
+    preset_desc = "Error"
+    preset = get_vfx_preset()
+    if preset == 0:
+        preset_desc = "Let Windows decide"
+    elif preset == 1:
+        preset_desc = "Optimize for appearance"
+    elif preset == 2:
+        preset_desc = "Optimize for performance"
+    elif preset == 3:
+        preset_desc = "Custom"
+
+    return {
+        "Visual effects preset": preset_desc,
+        "Window minimize/maximize animations": get_visual_fx(SPI_GETANIMATION),
+        "Combo box animations": get_visual_fx(SPI_GETCOMBOBOXANIMATION),
+        "Cursor shadow": get_visual_fx(SPI_GETCURSORSHADOW),
+        "Show window contents while dragging": get_visual_fx(SPI_GETDRAGFULLWINDOWS),
+        "Window drop shadows": get_visual_fx(SPI_GETDROPSHADOW),
+        "Font smoothing": get_visual_fx(SPI_GETFONTSMOOTHING),
+        "Gradient title bars": get_visual_fx(SPI_GETGRADIENTCAPTIONS),
+        "Smooth-scroll list boxes": get_visual_fx(SPI_GETLISTBOXSMOOTHSCROLLING),
+        "Menu animations (fade/slide)": get_visual_fx(SPI_GETMENUANIMATION),
+        "Selection fade": get_visual_fx(SPI_GETSELECTIONFADE),
+        "Tooltip animations": get_visual_fx(SPI_GETTOOLTIPANIMATION),
+        "General UI effects": get_visual_fx(SPI_GETUIEFFECTS),
+    }
+
 def get_vfx_preset():
     try:
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, PATH, 0, winreg.KEY_READ) as key:
@@ -77,7 +105,7 @@ def getlinks_vfx():
 def main():
     # 1. Map constants to readable labels for the report
     vfx_labels = {
-        SPI_GETANIMATION: "Window Animations",
+        SPI_GETANIMATION: "Window Minimize/Maximize Animations",
         SPI_GETCOMBOBOXANIMATION: "Combo Box Animations",
         SPI_GETCURSORSHADOW: "Cursor Shadow",
         SPI_GETDRAGFULLWINDOWS: "Show Window Contents While Dragging",
@@ -95,26 +123,28 @@ def main():
     print(" Windows Visual Effects Configuration ")
     print("="*50)
 
-    vfx_preset = "[ ERROR ]"
-    if get_vfx_preset() == 0:
-        vfx_preset = "[ LET WINDOWS DECIDE ]"
-    elif get_vfx_preset() == 1:
-        vfx_preset = "[ BEST APPEARANCE ]"
-    elif get_vfx_preset() == 2:
-        vfx_preset = "[ BEST PERFORMANCE ]"
-    elif get_vfx_preset() == 3:
-        vfx_preset = "[ CUSTOM ]"
+    # vfx_preset = "[ ERROR ]"
+    # if get_vfx_preset() == 0:
+    #     vfx_preset = "[ LET WINDOWS DECIDE ]"
+    # elif get_vfx_preset() == 1:
+    #     vfx_preset = "[ BEST APPEARANCE ]"
+    # elif get_vfx_preset() == 2:
+    #     vfx_preset = "[ BEST PERFORMANCE ]"
+    # elif get_vfx_preset() == 3:
+    #     vfx_preset = "[ CUSTOM ]"
 
-    print(f"{"PRESET":<40} {vfx_preset}")
+    # print(f"{"PRESET":<40} {vfx_preset}")
 
-    # 2. Print Current Statuses
-    for constant, label in vfx_labels.items():
-        status = get_visual_fx(constant)
-        status_str = "[ ENABLED ]" if status is True else "[ DISABLED ]"
-        if status == "Error retrieving":
-            status_str = "[ ERROR ]"
+    # # 2. Print Current Statuses
+    # for constant, label in vfx_labels.items():
+    #     status = get_visual_fx(constant)
+    #     status_str = "[ ENABLED ]" if status is True else "[ DISABLED ]"
+    #     if status == "Error retrieving":
+    #         status_str = "[ ERROR ]"
         
-        print(f"{label:<40} {status_str}")
+    #     print(f"{label:<40} {status_str}")
+
+    print(getall_visual_fx())
 
     print("Note: not all visual effects shown.")
     print("\n" + "="*50)

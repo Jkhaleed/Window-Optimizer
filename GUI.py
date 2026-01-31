@@ -110,8 +110,8 @@ class App(customtkinter.CTk):
             text_color="gray90"
         )
         computer_label.place(x=20, y=10)
-        textbox = customtkinter.CTkTextbox(tab, height=200)
-        textbox.pack(padx=25, pady=40, fill="both", expand=True)
+        self.textbox = customtkinter.CTkTextbox(tab, height=200)
+        self.textbox.pack(padx=25, pady=40, fill="both", expand=True)
 
         button_1 = customtkinter.CTkButton(
             tab,
@@ -128,8 +128,8 @@ class App(customtkinter.CTk):
             font=("Segoe UI", 14, "bold")
         )
         self.fx_label.pack(padx=20, pady=(20, 5), anchor="w")
-        self.textbox = customtkinter.CTkTextbox(tab, height=200)
-        self.textbox.pack(padx=25, pady=40, fill="both", expand=True)
+        self.textbox1 = customtkinter.CTkTextbox(tab, height=200)
+        self.textbox1.pack(padx=25, pady=40, fill="both", expand=True)
 
         self.fx_button = customtkinter.CTkButton(
             tab,
@@ -208,7 +208,8 @@ class App(customtkinter.CTk):
         self.brightness_slider = customtkinter.CTkSlider(
             tab,
             from_=0,
-            to=100
+            to=100,
+            command=self.on_brightness_change
         )
         self.brightness_slider.pack(padx=20, pady=10, fill="x")
         self.show_brightness()
@@ -325,9 +326,9 @@ class App(customtkinter.CTk):
             self.textbox.insert("end", line + "\n")
 
     def apply_virtual_fx(self):
-        self.textbox.delete("1.0", "end")
+        self.textbox1.delete("1.0", "end")
         for key, value in scripts.visualfx.getall_visual_fx().items():
-            self.textbox.insert("end", f"{key}: {value}" + "\n")
+            self.textbox1.insert("end", f"{key}: {value}" + "\n")
 
     def on_mouse_option(self):
         scripts.mouse.open_mouse_settings()
@@ -357,8 +358,11 @@ class App(customtkinter.CTk):
         value = scripts.brightness.get_brightness()
         self.brightness_text.set(f"Brightness: {value}%")
 
-    # def open_device_manager(self):
-    #     scripts.settings.WinSettings.Gaming.GAME_BAR.open()
+    def on_brightness_change(self, value):
+
+        brightness_value = int(value)
+        scripts.brightness.set_brightness(brightness_value)
+        self.brightness_text.set(f"Brightness: {brightness_value}%")
 
 
 if __name__ == "__main__":
